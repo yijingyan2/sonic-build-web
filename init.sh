@@ -34,8 +34,8 @@ function install_packages(){
     # install utilities for image build
     sudo apt-get -o DPkg::Lock::Timeout=600 install -y make || return
     sudo apt-get -o DPkg::Lock::Timeout=600 install -y python3-pip || return
-    pip3 install --force-reinstall --upgrade jinja2==2.10 || return
-    pip3 install j2cli==0.3.10 markupsafe==2.0.1 || return
+    python3 -m pip install --force-reinstall --upgrade jinja2==2.10 || return
+    python3 -m pip install j2cli==0.3.10 markupsafe==2.0.1 || return
     # for team services agent
     sudo apt-get -o DPkg::Lock::Timeout=600 install -y python-is-python2
     # install python2 libvirt 5.10.0
@@ -45,7 +45,7 @@ function install_packages(){
     pip2 install docker==4.4.1
 
     # install packages for vs test
-    pip3 install pytest==4.6.2 attrs==19.1.0 exabgp==4.0.10 distro==1.5.0 docker==4.4.1 redis==3.3.4
+    python3 -m pip install pytest==4.6.2 attrs==19.1.0 exabgp==4.0.10 distro==1.5.0 docker==4.4.1 redis==3.3.4
     sudo apt-get -o DPkg::Lock::Timeout=600 install -y libhiredis0.14 || return
 
     # install packages for kvm test
@@ -103,7 +103,7 @@ usermod -a -G sudo $tmpuser
 echo "$tmpuser ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/100-$tmpuser
 chmod 440 /etc/sudoers.d/100-$tmpuser
 
-sudo pip3 install docker==6.1.0 requests==2.31.0
+sudo python3 -m pip install docker==6.1.0 requests==2.31.0
 sudo apt-get -o DPkg::Lock::Timeout=600 install libyang0.16 libboost1.71-dev libboost-dev
 
 # create two partition on the 1T data disk
