@@ -64,7 +64,7 @@ function install_packages(){
         python3-libvirt \
         libzmq3-dev \
         libzmq5 \
-        libboost-serialization1.71.0 \
+        libboost-serialization1.74.0 \
         uuid-dev || return
 }
 
