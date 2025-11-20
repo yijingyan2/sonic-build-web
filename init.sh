@@ -104,7 +104,7 @@ echo "$tmpuser ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/100-$tmpuser
 chmod 440 /etc/sudoers.d/100-$tmpuser
 
 sudo python3 -m pip install docker==6.1.0 requests==2.31.0
-sudo apt-get -o DPkg::Lock::Timeout=600 install libyang0.16 libboost1.71-dev libboost-dev
+sudo apt-get -o DPkg::Lock::Timeout=600 install libyang-dev libboost1.74-dev libboost-dev
 
 # create two partition on the 1T data disk
 # first partition for azure pipeline agent
