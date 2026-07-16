@@ -4,6 +4,7 @@ const util = require('util');
 const { setTimeout } = require('timers/promises');
 const eventhub = require('./eventhub');
 const akv = require('./keyvault');
+const adoauth = require('./adoauth');
 const { EmailClient } = require("@azure/communication-email");
 const InProgress = 'in_progress'
 const MsConflict = 'ms_conflict'
@@ -221,7 +222,10 @@ function init(app) {
 
         var url, number, commit, base_branch, pr_owner, check_suite
         var script_branch = await akv.getSecretFromCache("CONFLICT_SCRIPT_BRANCH")
-        var msazure_token = await akv.getSecretFromCache("MSAZURE_TOKEN")
+        // Entra ID (AAD) access token for the App Service managed identity. Passed to
+        // ms_conflict_detect.sh as MSAZURE_TOKEN; the script must use it as a git
+        // "Authorization: Bearer" header (not embedded in the remote URL).
+        var msazure_token = await adoauth.getAdoAadToken()
 
         var param = Array()
         param.push(`FOLDER=conflict`)

@@ -2,12 +2,13 @@ const azdev=require("azure-devops-node-api");
 const azbuild=require("azure-devops-node-api/BuildApi");
 require('dotenv').config();
 const akv = require('./keyvault.js');
+const adoauth = require('./adoauth.js');
 const detail_url_prefix = 'https://dev.azure.com/';
 
 async function getconnection(org){
     var orgUrl = "https://dev.azure.com/" + org;
-    var token = await akv.getAzDevOpsToken();
-    var authHandler = azdev.getPersonalAccessTokenHandler(token);
+    var token = await adoauth.getAdoAadToken();
+    var authHandler = azdev.getBearerHandler(token);
     var connection = new azdev.WebApi(orgUrl, authHandler);
     return connection;
 }

@@ -5,6 +5,7 @@ const { execSync } = require('child_process');
 require('dotenv').config();
 const azp = require('./azp');
 const akv = require('./keyvault');
+const adoauth = require('./adoauth');
 const check_run = require('./check_run');
 const { retry } = require("@azure/core-amqp");
 
@@ -143,10 +144,10 @@ async function retryFailedBuilds(context) {
         return;
     }
 
-    var az_token = await akv.getAzDevOpsToken();
+    var az_token = await adoauth.getAdoAadToken();
 
     var timelineUrl = `https://dev.azure.com/${latestBuild.org}/${latestBuild.projectId}/_apis/build/builds/${latestBuild.buildId}/timeline?api-version=7.1`;
-    var timelineCmd = `curl --silent --show-error --request GET --url "${timelineUrl}" --user ":${az_token}" --header "Content-Type: application/json"`;
+    var timelineCmd = `curl --silent --show-error --request GET --url "${timelineUrl}" --header "Authorization: Bearer ${az_token}" --header "Content-Type: application/json"`;
     var timelineOutput = execSync(timelineCmd, { encoding: 'utf-8' });
     var timeline;
     try {
@@ -224,7 +225,7 @@ async function retryFailedBuilds(context) {
     for (var stage of failedStages) {
         try {
             var url = `https://dev.azure.com/${latestBuild.org}/${latestBuild.projectId}/_apis/build/builds/${latestBuild.buildId}/stages/${stage.identifier}?api-version=7.1`;
-            var cmd = `curl --silent --show-error --request PATCH --url "${url}" --user ":${az_token}" --header "Content-Type: application/json" --data '${data}'`;
+            var cmd = `curl --silent --show-error --request PATCH --url "${url}" --header "Authorization: Bearer ${az_token}" --header "Content-Type: application/json" --data '${data}'`;
             var output = execSync(cmd, { encoding: 'utf-8' });
             console.log(`Retried stage '${stage.identifier}' in build ${latestBuild.buildId}: ${output}`);
             summaryLines.push(`\n\n✅Stage **${stage.identifier}**:`);
