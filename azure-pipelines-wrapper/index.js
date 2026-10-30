@@ -10,6 +10,7 @@ const eventhub = require('./eventhub');
 const conflict_detect = require('./conflict_detect.js');
 const auto_cherrypick = require('./auto_cherrypick.js');
 const backport_labels = require('./backport_labels.js');
+const qualified_approvals = require('./qualified_approvals.js');
 
 module.exports = async (app) => {
   // Your code here
@@ -23,6 +24,7 @@ module.exports = async (app) => {
   conflict_detect.init(app);
   backport_labels.init(app);
   auto_cherrypick.init(app);
+  qualified_approvals.init(app);
 
   // For more information on building apps:
   // https://probot.github.io/docs/

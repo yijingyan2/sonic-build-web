@@ -24,6 +24,7 @@
     "@octokit/app": "^13.1.4",
     "@octokit/rest": "^18.10.0",
     "azure-devops-node-api": "^11.0.1",
+    "js-yaml": "^3.14.2",
     "node-cache": "^5.1.2",
     "probot": "^13.2.2"
   },
